@@ -1,0 +1,15 @@
+{
+  "seed": 17,
+  "epochs": 40,
+  "lr": 0.001,
+  "width": 32,
+  "phase_bins": 16,
+  "warp_strength": 0.5,
+  "orientation_weight": 0.1,
+  "winding_weight": 0.1,
+  "gate_weight": 1.0,
+  "variance_floor": 0.001,
+  "gate_threshold": 0.5,
+  "error_threshold": 3.0,
+  "device": "cpu"
+}

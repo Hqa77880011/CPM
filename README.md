@@ -45,6 +45,21 @@ Train separate `linear`, `no_equivariance` and `time_varying` variants. Evaluati
 
 `sequences.csv` records gate behavior; `metrics.json` contains aggregate measurements. Tempo/pause/skip/missing-cycle stress uses separately exported feature sequences and the same checkpoint/memory. The phase-equivalent frame metric measures circular correspondence rather than a full repeated-cycle-index match. Comparison CSV/JSON and PNG/SVG plots use computed values.
 
+## Registered compact reproduction setting
+
+Width-32 temporal circular head, 16 supported phase bins and 40 fixed epochs. The feature backbone is frozen; all objective controls share it and the successful-cycle memory.
+
+Run from the repository root after installation. The following commands use the registered setting; they are provided for execution and have not been run as part of the source review.
+
+```bash
+cpm prepare --config configs/reproduce.json --input data/manifest.json --data data/reproduce
+cpm train --config configs/reproduce.json --data data/reproduce --output runs/reproduce
+cpm memory --config configs/reproduce.json --data data/reproduce --checkpoint runs/reproduce/model.pt --output checkpoints/reproduce
+cpm evaluate --config configs/reproduce.json --data data/reproduce --checkpoint runs/reproduce/model.pt --memory checkpoints/reproduce/memory.npz --output runs/reproduce
+```
+
+Required external inputs: grouped frozen video features with cycle/normal and evaluation-error annotations. The formal input fields are specified above; preparation/training interfaces consume those fields directly. No particular paper dataset or pretrained task model is assumed beyond these declared inputs.
+
 ## Multiple seeds
 
 Run matched configurations with different seeds in separate directories, then aggregate the generated metric files:
