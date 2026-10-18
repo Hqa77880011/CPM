@@ -11,5 +11,6 @@
   "variance_floor": 0.001,
   "gate_threshold": 0.5,
   "error_threshold": 3.0,
-  "device": "cpu"
+  "device": "cpu",
+  "input_source": "cyclic_kinematic_features"
 }

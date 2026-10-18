@@ -47,18 +47,19 @@ Train separate `linear`, `no_equivariance` and `time_varying` variants. Evaluati
 
 ## Registered compact reproduction setting
 
-Width-32 temporal circular head, 16 supported phase bins and 40 fixed epochs. The feature backbone is frozen; all objective controls share it and the successful-cycle memory.
+A finite cyclic kinematic process produces frozen 16-dimensional features through a fixed random projection. Phase and cycle truth come from the motion clock; omitted limb excursions create local errors. Actor, session and sequence groups remain disjoint. No video encoder weights are required.
 
-Run from the repository root after installation. The following commands use the registered setting; they are provided for execution and have not been run as part of the source review.
+Generate the declared input process, preprocess it, then use the existing method entry points:
 
 ```bash
-cpm prepare --config configs/reproduce.json --input data/manifest.json --data data/reproduce
+python -m cpm.synthetic --output data/generated --groups 30 --seed 17
+cpm prepare --config configs/reproduce.json --input data/generated/manifest.json --data data/reproduce
 cpm train --config configs/reproduce.json --data data/reproduce --output runs/reproduce
 cpm memory --config configs/reproduce.json --data data/reproduce --checkpoint runs/reproduce/model.pt --output checkpoints/reproduce
 cpm evaluate --config configs/reproduce.json --data data/reproduce --checkpoint runs/reproduce/model.pt --memory checkpoints/reproduce/memory.npz --output runs/reproduce
 ```
 
-Required external inputs: grouped frozen video features with cycle/normal and evaluation-error annotations. The formal input fields are specified above; preparation/training interfaces consume those fields directly. No particular paper dataset or pretrained task model is assumed beyond these declared inputs.
+`source.json` records the data-generating assumptions and seed. The configuration records `input_source`. All inputs for this selected setting are generated locally using installed package dependencies.
 
 ## Multiple seeds
 
